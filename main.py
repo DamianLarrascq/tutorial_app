@@ -40,6 +40,9 @@ while True:
             pygame.quit()
             exit()
 
+        if event.type == pygame.MOUSEBUTTONUP:
+            print('mouse up')
+
     screen.blit(sky_surface, (0, 0))
     screen.blit(ground_surface, (0, 300))
     screen.blit(text_surface, (350, 25))
@@ -48,6 +51,12 @@ while True:
         snail_rect.right = 800
     screen.blit(snail_surface, snail_rect)
     screen.blit(player_surface, player_rect)
+
+    # if player_rect.colliderect(snail_rect):
+    # print('collision')
+    mouse_pos = pygame.mouse.get_pos()
+    if player_rect.collidepoint(mouse_pos):
+        print(pygame.mouse.get_pressed())
 
     # update everything in the screen
     pygame.display.update()
