@@ -43,9 +43,10 @@ while True:
     screen.blit(sky_surface, (0, 0))
     screen.blit(ground_surface, (0, 300))
     screen.blit(text_surface, (350, 25))
-    snail_rect.right -= 1
+    snail_rect.left -= 2
+    if snail_rect.left <= 0:
+        snail_rect.right = 800
     screen.blit(snail_surface, snail_rect)
-    player_rect.left += 1
     screen.blit(player_surface, player_rect)
 
     # update everything in the screen
