@@ -15,10 +15,14 @@ clock = pygame.time.Clock()
 # game font
 test_font = pygame.font.Font('font/Pixeltype.ttf', 50)
 
-# variables for surface
+# variables for background surfaces
 sky_surface = pygame.image.load('graphics/Sky.png')
 ground_surface = pygame.image.load('graphics/ground.png')
 text_surface = test_font.render('My Game', False, 'Black')
+
+# character surface
+snail_surface = pygame.image.load('graphics/snail/snail1.png')
+snail_x_pos = 300
 
 # game loop
 while True:
@@ -34,6 +38,11 @@ while True:
     screen.blit(sky_surface, (0, 0))
     screen.blit(ground_surface, (0, 300))
     screen.blit(text_surface, (350, 25))
+    snail_x_pos -= 2
+    if snail_x_pos < -100:
+        snail_x_pos = 800
+
+    screen.blit(snail_surface, (snail_x_pos, 250))
 
     # update everything in the screen
     pygame.display.update()
