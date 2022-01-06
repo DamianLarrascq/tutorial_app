@@ -6,13 +6,12 @@ from sys import exit
 pygame.init()
 
 # set screen width and height
-screen = pygame.display.set_mode((800, 600))
+screen = pygame.display.set_mode((800, 400))
 pygame.display.set_caption("First Game")
 # object that controls time and frames
 clock = pygame.time.Clock()
 # variable for surface
-test_surface = pygame.Surface((100, 200))
-test_surface.fill('Red')
+sky_surface = pygame.image.load('graphics/Sky.png')
 # game loop
 while True:
 
@@ -24,7 +23,7 @@ while True:
             pygame.quit()
             exit()
 
-    screen.blit(test_surface, (0, 0))
+    screen.blit(sky_surface, (0, 0))
 
     # update everything in the screen
     pygame.display.update()
