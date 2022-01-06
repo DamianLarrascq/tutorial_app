@@ -22,11 +22,12 @@ text_surface = test_font.render('My Game', False, 'Black').convert()
 
 # enemy surface
 snail_surface = pygame.image.load('graphics/snail/snail1.png').convert_alpha()
-snail_x_pos = 300
+snail_rect = snail_surface.get_rect(midbottom=(300, 300))
 
 # player surface
 player_surface = pygame.image.load(
     'graphics/player/player_walk_1.png').convert_alpha()
+player_rect = player_surface.get_rect(midbottom=(80, 300))
 
 # game loop
 while True:
@@ -42,12 +43,10 @@ while True:
     screen.blit(sky_surface, (0, 0))
     screen.blit(ground_surface, (0, 300))
     screen.blit(text_surface, (350, 25))
-    snail_x_pos -= 2
-    if snail_x_pos < -100:
-        snail_x_pos = 800
-
-    screen.blit(snail_surface, (snail_x_pos, 250))
-    screen.blit(player_surface, (80, 200))
+    snail_rect.right -= 1
+    screen.blit(snail_surface, snail_rect)
+    player_rect.left += 1
+    screen.blit(player_surface, player_rect)
 
     # update everything in the screen
     pygame.display.update()
