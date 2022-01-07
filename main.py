@@ -52,11 +52,12 @@ while True:
     screen.blit(snail_surface, snail_rect)
     screen.blit(player_surface, player_rect)
 
-    # if player_rect.colliderect(snail_rect):
-    # print('collision')
+    # mouse position
     mouse_pos = pygame.mouse.get_pos()
+
+    # checks if player rectangle collides with mouse position and prints 'collision'
     if player_rect.collidepoint(mouse_pos):
-        print(pygame.mouse.get_pressed())
+        print('collision')
 
     # update everything in the screen
     pygame.display.update()
