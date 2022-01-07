@@ -41,18 +41,37 @@ while True:
             pygame.quit()
             exit()
 
+        # checks if the space key is pressed and prints key down
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                player_rect.y -= 1
+
+        # checks if the space key is released and prints key up
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_SPACE:
+                player_rect.y += 100
+
         """ if event.type == pygame.MOUSEMOTION:
             if player_rect.collidepoint(event.pos):
                 print('collision') """
 
     screen.blit(sky_surface, (0, 0))
     screen.blit(ground_surface, (0, 300))
-    screen.blit(score_surface, (350, 25))
+    # draws a rect behind the score
+    #pygame.draw.rect(screen, 'Pink', score_rect)
+    screen.blit(score_surface, score_rect)
+
     snail_rect.left -= 2
     if snail_rect.left <= 0:
         snail_rect.right = 800
+
     screen.blit(snail_surface, snail_rect)
     screen.blit(player_surface, player_rect)
+
+    # checks if space is pressed and prints 'jump' if its true
+    """ keys = pygame.key.get_pressed()
+    if keys[pygame.K_SPACE]:
+        print('jump') """
 
     # mouse position
     #mouse_pos = pygame.mouse.get_pos()
