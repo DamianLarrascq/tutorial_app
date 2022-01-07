@@ -18,7 +18,8 @@ test_font = pygame.font.Font('font/Pixeltype.ttf', 50)
 # variables for background surfaces
 sky_surface = pygame.image.load('graphics/Sky.png').convert()
 ground_surface = pygame.image.load('graphics/ground.png').convert()
-text_surface = test_font.render('My Game', False, 'Black').convert()
+score_surface = test_font.render('Score', False, 'Black').convert()
+score_rect = score_surface.get_rect(center=(400, 50))
 
 # enemy surface
 snail_surface = pygame.image.load('graphics/snail/snail1.png').convert_alpha()
@@ -40,12 +41,13 @@ while True:
             pygame.quit()
             exit()
 
-        if event.type == pygame.MOUSEBUTTONUP:
-            print('mouse up')
+        """ if event.type == pygame.MOUSEMOTION:
+            if player_rect.collidepoint(event.pos):
+                print('collision') """
 
     screen.blit(sky_surface, (0, 0))
     screen.blit(ground_surface, (0, 300))
-    screen.blit(text_surface, (350, 25))
+    screen.blit(score_surface, (350, 25))
     snail_rect.left -= 2
     if snail_rect.left <= 0:
         snail_rect.right = 800
@@ -53,11 +55,11 @@ while True:
     screen.blit(player_surface, player_rect)
 
     # mouse position
-    mouse_pos = pygame.mouse.get_pos()
+    #mouse_pos = pygame.mouse.get_pos()
 
     # checks if player rectangle collides with mouse position and prints 'collision'
-    if player_rect.collidepoint(mouse_pos):
-        print('collision')
+    """ if player_rect.collidepoint(mouse_pos):
+        print('collision') """
 
     # update everything in the screen
     pygame.display.update()
