@@ -42,11 +42,12 @@ while True:
             pygame.quit()
             exit()
 
-        # checks if the space key is pressed and prints key down
+        # checks if the space key is pressed and jumps
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 player_gravity = -20
 
+        # checks if a mouse button is pressed and jumps
         if event.type == pygame.MOUSEBUTTONDOWN:
             player_gravity = -20
 
@@ -70,6 +71,8 @@ while True:
     # player
     player_gravity += 1
     player_rect.y += player_gravity
+    if player_rect.bottom >= 300:
+        player_rect.bottom = 300
     screen.blit(player_surface, player_rect)
 
     # update everything in the screen
