@@ -29,6 +29,7 @@ snail_rect = snail_surface.get_rect(midbottom=(300, 300))
 player_surface = pygame.image.load(
     'graphics/player/player_walk_1.png').convert_alpha()
 player_rect = player_surface.get_rect(midbottom=(80, 300))
+player_gravity = 0
 
 # game loop
 while True:
@@ -44,41 +45,32 @@ while True:
         # checks if the space key is pressed and prints key down
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                player_rect.y -= 1
+                player_gravity = -20
 
-        # checks if the space key is released and prints key up
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_SPACE:
-                player_rect.y += 100
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            player_gravity = -20
 
-        """ if event.type == pygame.MOUSEMOTION:
-            if player_rect.collidepoint(event.pos):
-                print('collision') """
-
+    # sky
     screen.blit(sky_surface, (0, 0))
+
+    # ground
     screen.blit(ground_surface, (0, 300))
-    # draws a rect behind the score
-    #pygame.draw.rect(screen, 'Pink', score_rect)
+
+    # score
     screen.blit(score_surface, score_rect)
 
+    # snail movement
     snail_rect.left -= 2
     if snail_rect.left <= 0:
         snail_rect.right = 800
 
+    # snail
     screen.blit(snail_surface, snail_rect)
+
+    # player
+    player_gravity += 1
+    player_rect.y += player_gravity
     screen.blit(player_surface, player_rect)
-
-    # checks if space is pressed and prints 'jump' if its true
-    """ keys = pygame.key.get_pressed()
-    if keys[pygame.K_SPACE]:
-        print('jump') """
-
-    # mouse position
-    #mouse_pos = pygame.mouse.get_pos()
-
-    # checks if player rectangle collides with mouse position and prints 'collision'
-    """ if player_rect.collidepoint(mouse_pos):
-        print('collision') """
 
     # update everything in the screen
     pygame.display.update()
