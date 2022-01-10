@@ -1,5 +1,7 @@
 import pygame
 from sys import exit
+
+from pygame.constants import K_SPACE
 # imports "exit()" to finish the while loop
 
 # initializes pygame
@@ -14,6 +16,8 @@ clock = pygame.time.Clock()
 
 # game font
 test_font = pygame.font.Font('font/Pixeltype.ttf', 50)
+
+game_active = True
 
 # variables for background surfaces
 sky_surface = pygame.image.load('graphics/Sky.png').convert()
@@ -42,38 +46,51 @@ while True:
             pygame.quit()
             exit()
 
-        # checks if the space key is pressed and jumps
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE and player_rect.bottom == 300:
+        if game_active:
+            # checks if the space key is pressed and jumps
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE and player_rect.bottom == 300:
+                    player_gravity = -20
+
+            # checks if a mouse button is pressed and jumps
+            if event.type == pygame.MOUSEBUTTONDOWN and player_rect.bottom == 300:
                 player_gravity = -20
 
-        # checks if a mouse button is pressed and jumps
-        if event.type == pygame.MOUSEBUTTONDOWN and player_rect.bottom == 300:
-            player_gravity = -20
+        else:
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                game_active = True
+                snail_rect.right = 800
 
-    # sky
-    screen.blit(sky_surface, (0, 0))
+    if game_active:
+        # sky
+        screen.blit(sky_surface, (0, 0))
 
-    # ground
-    screen.blit(ground_surface, (0, 300))
+        # ground
+        screen.blit(ground_surface, (0, 300))
 
-    # score
-    screen.blit(score_surface, score_rect)
+        # score
+        screen.blit(score_surface, score_rect)
 
-    # snail movement
-    snail_rect.left -= 2
-    if snail_rect.left <= 0:
-        snail_rect.right = 800
+        # snail movement
+        snail_rect.left -= 2
+        if snail_rect.left <= 0:
+            snail_rect.right = 800
 
-    # snail
-    screen.blit(snail_surface, snail_rect)
+        # snail
+        screen.blit(snail_surface, snail_rect)
 
-    # player
-    player_gravity += 1
-    player_rect.y += player_gravity
-    if player_rect.bottom >= 300:
-        player_rect.bottom = 300
-    screen.blit(player_surface, player_rect)
+        # player
+        player_gravity += 1
+        player_rect.y += player_gravity
+        if player_rect.bottom >= 300:
+            player_rect.bottom = 300
+        screen.blit(player_surface, player_rect)
+
+        if snail_rect.colliderect(player_rect):
+            game_active = False
+
+    else:
+        screen.fill('Red')
 
     # update everything in the screen
     pygame.display.update()
