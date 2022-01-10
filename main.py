@@ -4,6 +4,14 @@ from sys import exit
 from pygame.constants import K_SPACE
 # imports "exit()" to finish the while loop
 
+
+def display_score():
+    current_time = pygame.time.get_ticks() - start_time
+    score_surface = test_font.render(f'{current_time}', False, 'Black')
+    score_rect = score_surface.get_rect(center=(400, 50))
+    screen.blit(score_surface, score_rect)
+
+
 # initializes pygame
 pygame.init()
 
@@ -18,12 +26,13 @@ clock = pygame.time.Clock()
 test_font = pygame.font.Font('font/Pixeltype.ttf', 50)
 
 game_active = True
+start_time = 0
 
 # variables for background surfaces
 sky_surface = pygame.image.load('graphics/Sky.png').convert()
 ground_surface = pygame.image.load('graphics/ground.png').convert()
-score_surface = test_font.render('Score', False, 'Black').convert()
-score_rect = score_surface.get_rect(center=(400, 50))
+# score_surface = test_font.render('Score', False, 'Black').convert()
+# score_rect = score_surface.get_rect(center=(400, 50))
 
 # enemy surface
 snail_surface = pygame.image.load('graphics/snail/snail1.png').convert_alpha()
@@ -59,7 +68,8 @@ while True:
         else:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 game_active = True
-                snail_rect.right = 800
+                snail_rect.x = 800
+                start_time = pygame.time.get_ticks()
 
     if game_active:
         # sky
@@ -69,8 +79,8 @@ while True:
         screen.blit(ground_surface, (0, 300))
 
         # score
-        screen.blit(score_surface, score_rect)
-
+        # screen.blit(score_surface, score_rect)
+        display_score()
         # snail movement
         snail_rect.left -= 2
         if snail_rect.left <= 0:
