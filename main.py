@@ -44,11 +44,11 @@ while True:
 
         # checks if the space key is pressed and jumps
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
+            if event.key == pygame.K_SPACE and player_rect.bottom == 300:
                 player_gravity = -20
 
         # checks if a mouse button is pressed and jumps
-        if event.type == pygame.MOUSEBUTTONDOWN:
+        if event.type == pygame.MOUSEBUTTONDOWN and player_rect.bottom == 300:
             player_gravity = -20
 
     # sky
