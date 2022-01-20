@@ -2,17 +2,41 @@ import pygame
 from sys import exit
 
 from pygame.constants import K_SPACE
+
 # imports "exit()" to finish the while loop
+
+game_active = True
+start_time = 0
+score_format = 'Int'
+
+
+def calculate_score():
+    current_time = pygame.time.get_ticks() - start_time
+
+    return current_time
 
 
 def display_score():
-    current_time = pygame.time.get_ticks() - start_time
-    score_surface = test_font.render(f'{current_time}', False, 'Black')
+    score_surface = test_font.render(f'{ms_to_sec(calculate_score())}', False, 'Black')
     score_rect = score_surface.get_rect(center=(400, 50))
     screen.blit(score_surface, score_rect)
 
+    return None
+
+
+def ms_to_sec(ms):
+    result = ms
+    if score_format == 'Float':
+        result = float(ms / 1000)
+    if score_format == 'Int':
+        result = int(ms / 1000)
+
+    return result
+
 
 # initializes pygame
+
+
 pygame.init()
 
 # set screen width and height
@@ -24,9 +48,6 @@ clock = pygame.time.Clock()
 
 # game font
 test_font = pygame.font.Font('font/Pixeltype.ttf', 50)
-
-game_active = True
-start_time = 0
 
 # variables for background surfaces
 sky_surface = pygame.image.load('graphics/Sky.png').convert()
@@ -58,7 +79,7 @@ while True:
         if game_active:
             # checks if the space key is pressed and jumps
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE and player_rect.bottom == 300:
+                if event.key == K_SPACE and player_rect.bottom == 300:
                     player_gravity = -20
 
             # checks if a mouse button is pressed and jumps
@@ -82,7 +103,7 @@ while True:
         # screen.blit(score_surface, score_rect)
         display_score()
         # snail movement
-        snail_rect.left -= 2
+        snail_rect.left -= 4
         if snail_rect.left <= 0:
             snail_rect.right = 800
 
