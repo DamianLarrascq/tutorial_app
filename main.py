@@ -5,13 +5,13 @@ from pygame.constants import K_SPACE
 
 # imports "exit()" to finish the while loop
 
-game_active = True
-start_time = 0
+game_active = False
+game_score = 0
 score_format = 'Int'
 
 
 def calculate_score():
-    current_time = pygame.time.get_ticks() - start_time
+    current_time = pygame.time.get_ticks() - game_score
 
     return current_time
 
@@ -49,6 +49,12 @@ clock = pygame.time.Clock()
 # game font
 test_font = pygame.font.Font('font/Pixeltype.ttf', 50)
 
+# start text
+game_title = test_font.render('Pixel Runner', False, 'Black')
+game_title_rect = game_title.get_rect(center=(400, 100))
+game_message = test_font.render('Press Space to Start', False, 'Black')
+game_message_rect = game_message.get_rect(center=(400, 300))
+
 # variables for background surfaces
 sky_surface = pygame.image.load('graphics/Sky.png').convert()
 ground_surface = pygame.image.load('graphics/ground.png').convert()
@@ -64,6 +70,8 @@ player_surface = pygame.image.load(
     'graphics/player/player_walk_1.png').convert_alpha()
 player_rect = player_surface.get_rect(midbottom=(80, 300))
 player_gravity = 0
+player_stand = pygame.image.load('graphics/player/player_stand.png').convert_alpha()
+player_stand_rect = player_stand.get_rect(center=(400, 200))
 
 # game loop
 while True:
@@ -90,7 +98,7 @@ while True:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 game_active = True
                 snail_rect.x = 800
-                start_time = pygame.time.get_ticks()
+                game_score = pygame.time.get_ticks()
 
     if game_active:
         # sky
@@ -100,7 +108,6 @@ while True:
         screen.blit(ground_surface, (0, 300))
 
         # score
-        # screen.blit(score_surface, score_rect)
         display_score()
         # snail movement
         snail_rect.left -= 4
@@ -121,7 +128,18 @@ while True:
             game_active = False
 
     else:
-        screen.fill('Red')
+        screen.fill((94, 129, 162))
+        screen.blit(player_stand, player_stand_rect)
+
+        score_message = test_font.render(f'Your Score: {ms_to_sec(calculate_score())}', False, 'Black')
+        score_message_rect = score_message.get_rect(center=(400, 350))
+        screen.blit(game_title, game_title_rect)
+
+        if game_score == 0:
+            screen.blit(game_message, game_message_rect)
+
+        else:
+            screen.blit(score_message, score_message_rect)
 
     # update everything in the screen
     pygame.display.update()
