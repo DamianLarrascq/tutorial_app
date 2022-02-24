@@ -67,10 +67,10 @@ snail_rect = snail_surface.get_rect(midbottom=(300, 300))
 
 # player surface
 player_surface = pygame.image.load(
-    'graphics/player/player_walk_1.png').convert_alpha()
+    'graphics/Player/player_walk_1.png').convert_alpha()
 player_rect = player_surface.get_rect(midbottom=(80, 300))
 player_gravity = 0
-player_stand = pygame.image.load('graphics/player/player_stand.png').convert_alpha()
+player_stand = pygame.image.load('graphics/Player/player_stand.png').convert_alpha()
 player_stand_rect = player_stand.get_rect(center=(400, 200))
 
 # game loop
