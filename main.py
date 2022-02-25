@@ -8,6 +8,7 @@ from pygame.constants import K_SPACE
 game_active = False
 game_score = 0
 score_format = 'Int'
+flag = False
 
 
 def calculate_score():
@@ -48,6 +49,15 @@ def obstacle_movement(obstacle_list):
         return obstacle_list
     else:
         return []
+
+
+def collisions(player, obstacles):
+    if obstacles:
+        for obstacle_rect in obstacles:
+            if player.colliderect(obstacle_rect):
+                return False
+
+    return True
 
 
 # initializes pygame
@@ -134,9 +144,6 @@ while True:
         # score
         display_score()
 
-        # snail
-        # screen.blit(snail_surface, snail_rect)
-
         # player
         player_gravity += 1
         player_rect.y += player_gravity
@@ -144,8 +151,10 @@ while True:
             player_rect.bottom = 300
         screen.blit(player_surface, player_rect)
 
-        # if snail_rect.colliderect(player_rect):
-        # game_active = False
+        game_active = collisions(player_rect, obstacle_rect_list)
+        if not collisions(player_rect, obstacle_rect_list):
+            last_score = ms_to_sec(calculate_score())
+            flag = True
 
         # obstacle movement
         obstacle_rect_list = obstacle_movement(obstacle_rect_list)
@@ -154,7 +163,11 @@ while True:
         screen.fill((94, 129, 162))
         screen.blit(player_stand, player_stand_rect)
 
-        score_message = test_font.render(f'Your Score: {ms_to_sec(calculate_score())}', False, 'Black')
+        if flag:
+            score_message = test_font.render(f'Your Score: {last_score}', False, 'Black')
+        else:
+            score_message = test_font.render(f'Your Score: {ms_to_sec(calculate_score())}', False, 'Black')
+
         score_message_rect = score_message.get_rect(center=(400, 350))
         screen.blit(game_title, game_title_rect)
 
