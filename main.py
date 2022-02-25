@@ -33,15 +33,23 @@ def ms_to_sec(ms):
 
     return result
 
+
 def obstacle_movement(obstacle_list):
     if obstacle_list:
         for obstacle_rect in obstacle_list:
             obstacle_rect.x -= 5
-            screen.blit(snail_surface, obstacle_rect)
+            if obstacle_rect.bottom == 300:
+                screen.blit(snail_surface, obstacle_rect)
+            else:
+                screen.blit(fly_surface, obstacle_rect)
+
         obstacle_list = [obstacle for obstacle in obstacle_list if obstacle.x > -100]
 
         return obstacle_list
-    else: return []
+    else:
+        return []
+
+
 # initializes pygame
 
 
@@ -110,7 +118,7 @@ while True:
                 if randint(0, 2):
                     obstacle_rect_list.append(snail_surface.get_rect(midbottom=(randint(900, 1100), 300)))
                 else:
-                    obstacle_rect_list.append(snail_surface.get_rect(midbottom=(randint(900, 1100), 200)))
+                    obstacle_rect_list.append(fly_surface.get_rect(midbottom=(randint(900, 1100), 200)))
         else:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 game_active = True
@@ -127,7 +135,7 @@ while True:
         display_score()
 
         # snail
-        #screen.blit(snail_surface, snail_rect)
+        # screen.blit(snail_surface, snail_rect)
 
         # player
         player_gravity += 1
@@ -136,8 +144,8 @@ while True:
             player_rect.bottom = 300
         screen.blit(player_surface, player_rect)
 
-        #if snail_rect.colliderect(player_rect):
-            #game_active = False
+        # if snail_rect.colliderect(player_rect):
+        # game_active = False
 
         # obstacle movement
         obstacle_rect_list = obstacle_movement(obstacle_rect_list)
