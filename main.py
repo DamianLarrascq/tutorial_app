@@ -36,7 +36,7 @@ def ms_to_sec(ms):
 
 
 def obstacle_movement(obstacle_list):
-    if obstacle_list:
+    if obstacle_list and game_active:
         for obstacle_rect in obstacle_list:
             obstacle_rect.x -= 5
             if obstacle_rect.bottom == 300:
@@ -87,7 +87,6 @@ ground_surface = pygame.image.load('graphics/ground.png').convert()
 
 # obstacles
 snail_surface = pygame.image.load('graphics/snail/snail1.png').convert_alpha()
-# snail_rect = snail_surface.get_rect(midbottom=(300, 300))
 fly_surface = pygame.image.load('graphics/Fly/Fly1.png')
 obstacle_rect_list = []
 
@@ -152,7 +151,8 @@ while True:
         screen.blit(player_surface, player_rect)
 
         game_active = collisions(player_rect, obstacle_rect_list)
-        if not collisions(player_rect, obstacle_rect_list):
+
+        if game_active:
             last_score = ms_to_sec(calculate_score())
             flag = True
 
@@ -162,6 +162,8 @@ while True:
     else:
         screen.fill((94, 129, 162))
         screen.blit(player_stand, player_stand_rect)
+        player_rect.midbottom = (80, 300)
+        player_gravity = 0
 
         if flag:
             score_message = test_font.render(f'Your Score: {last_score}', False, 'Black')
