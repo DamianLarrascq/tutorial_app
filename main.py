@@ -100,16 +100,27 @@ game_message_rect = game_message.get_rect(center=(400, 300))
 sky_surface = pygame.image.load('graphics/Sky.png').convert()
 ground_surface = pygame.image.load('graphics/ground.png').convert()
 
-# obstacles
-snail_surface = pygame.image.load('graphics/snail/snail1.png').convert_alpha()
-fly_surface = pygame.image.load('graphics/Fly/Fly1.png')
+# Snail
+snail_frame_1 = pygame.image.load('graphics/snail/snail1.png').convert_alpha()
+snail_frame_2 = pygame.image.load('graphics/snail/snail2.png').convert_alpha()
+snail_frames = [snail_frame_1, snail_frame_2]
+snail_frame_index = 0
+snail_surface = snail_frames[snail_frame_index]
+
+# Fly
+fly_frame_1 = pygame.image.load('graphics/Fly/Fly1.png').convert_alpha()
+fly_frame_2 = pygame.image.load('graphics/Fly/Fly2.png').convert_alpha()
+fly_frames = [fly_frame_1, fly_frame_2]
+fly_frame_index = 0
+fly_surface = fly_frames[fly_frame_index]
+
 obstacle_rect_list = []
 
 # player surface
 player_walk_1 = pygame.image.load('graphics/Player/player_walk_1.png').convert_alpha()
 player_walk_2 = pygame.image.load('graphics/Player/player_walk_2.png').convert_alpha()
 player_walk = [player_walk_1, player_walk_2]
-player_jump = pygame.image.load('graphics/Player/jump.png')
+player_jump = pygame.image.load('graphics/Player/jump.png').convert_alpha()
 player_index = 0
 player_surface = player_walk[player_index]
 player_rect = player_surface.get_rect(midbottom=(80, 300))
@@ -120,6 +131,12 @@ player_stand_rect = player_stand.get_rect(center=(400, 200))
 # Timer
 obstacle_timer = pygame.USEREVENT + 1
 pygame.time.set_timer(obstacle_timer, 1500)
+
+snail_animation_timer = pygame.USEREVENT + 2
+pygame.time.set_timer(snail_animation_timer, 500)
+
+fly_animation_timer = pygame.USEREVENT + 3
+pygame.time.set_timer(fly_animation_timer, 200)
 
 # game loop
 while True:
@@ -138,15 +155,30 @@ while True:
                 if event.key == K_SPACE and player_rect.bottom == 300:
                     player_gravity = -20
 
-            # checks if a mouse button is pressed and jumps
-            if event.type == pygame.MOUSEBUTTONDOWN and player_rect.bottom == 300:
-                player_gravity = -20
-
-            if event.type == obstacle_timer and game_active:
+            if event.type == obstacle_timer:
                 if randint(0, 2):
                     obstacle_rect_list.append(snail_surface.get_rect(midbottom=(randint(900, 1100), 300)))
                 else:
                     obstacle_rect_list.append(fly_surface.get_rect(midbottom=(randint(900, 1100), 200)))
+
+            if event.type == snail_animation_timer:
+                if snail_frame_index == 0:
+                    snail_frame_index = 1
+                    snail_surface = snail_frames[snail_frame_index]
+
+                else:
+                    snail_frame_index = 0
+                    snail_surface = snail_frames[snail_frame_index]
+
+            if event.type == fly_animation_timer:
+                if fly_frame_index == 0:
+                    fly_frame_index = 1
+                    fly_surface = fly_frames[fly_frame_index]
+
+                else:
+                    fly_frame_index = 0
+                    fly_surface = fly_frames[fly_frame_index]
+
         else:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 game_active = True
