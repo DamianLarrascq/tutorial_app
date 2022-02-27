@@ -164,20 +164,20 @@ while True:
             if event.type == snail_animation_timer:
                 if snail_frame_index == 0:
                     snail_frame_index = 1
-                    snail_surface = snail_frames[snail_frame_index]
 
                 else:
                     snail_frame_index = 0
-                    snail_surface = snail_frames[snail_frame_index]
+
+                snail_surface = snail_frames[snail_frame_index]
 
             if event.type == fly_animation_timer:
                 if fly_frame_index == 0:
                     fly_frame_index = 1
-                    fly_surface = fly_frames[fly_frame_index]
 
                 else:
                     fly_frame_index = 0
-                    fly_surface = fly_frames[fly_frame_index]
+
+                fly_surface = fly_frames[fly_frame_index]
 
         else:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
